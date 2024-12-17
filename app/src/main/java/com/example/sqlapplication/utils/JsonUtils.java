@@ -9,7 +9,7 @@ public class JsonUtils {
     public static Gson getJsonParser() {
         if (gson == null) {
             gson = new GsonBuilder()
-                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                    .setDateFormat("yyyy-MM-dd HH:mm:ss")
                     .create();
         }
         return gson;

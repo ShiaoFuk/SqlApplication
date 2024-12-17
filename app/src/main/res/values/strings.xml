@@ -9,4 +9,10 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="ordinary_user">普通用户</string>
+    <string name="super_user">超级用户</string>
+
+    <string name="no_certificate">当前未设置身份证</string>
+    <string name="no_email">当前未设置邮箱</string>
+
 </resources>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.MyActivity">
+        <TextView
+            android:id="@+id/title"
+            android:text="我的领回单"
+            android:textSize="@dimen/app_text_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+        <LinearLayout
+            android:id="@+id/btn_layout"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            android:gravity="center_horizontal"
+            >
+            <Button
+                android:id="@+id/unsolved_btn"
+                android:text="未处理"
+                android:textSize="@dimen/app_text_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/app_horizontal_margin"
+                android:layout_marginVertical="@dimen/app_vertical_margin"
+                />
+            <Button
+                android:id="@+id/delete_btn"
+                android:text="删除"
+                android:textSize="@dimen/app_text_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/app_horizontal_margin"
+                android:layout_marginVertical="@dimen/app_vertical_margin"
+                />
+            <Button
+                android:id="@+id/solved_btn"
+                android:text="已处理"
+                android:textSize="@dimen/app_text_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/app_horizontal_margin"
+                android:layout_marginVertical="@dimen/app_vertical_margin"
+                />
+
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycle_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/btn_layout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

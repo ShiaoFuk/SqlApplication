@@ -32,7 +32,7 @@ public class JwtUtil {
 
     /**
      * 检测token的日期是否过期，过期返回true
-     * @param expireTime
+     * @param expireTime 过期时间
      * @return true if expired, else false
      */
     public static boolean checkIfTokenExpire(Date expireTime) {

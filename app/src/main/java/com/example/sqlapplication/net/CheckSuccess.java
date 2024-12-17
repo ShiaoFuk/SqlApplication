@@ -13,12 +13,12 @@ public abstract class CheckSuccess {
      * @param data 得到的result响应的data字段内容，可能是对象、列表或字符串
      * @throws Exception
      */
-    public abstract void doWithSuccess(JsonElement data) throws Exception;  //
+    protected abstract void doWithSuccess(JsonObject data) throws Exception;  //
 
     /**
      * 请求失败码不为200要做的事情（不包含exception）,一般不实现
      */
-    public abstract void doWithFailure() throws Exception;
+    protected abstract void doWithFailure(String message) throws Exception;
 
 
     /**
@@ -32,7 +32,7 @@ public abstract class CheckSuccess {
         if (jsonObject.get("code") != null && jsonObject.get("code").getAsInt() == 200) {
             doWithSuccess(jsonObject);
         } else {
-            doWithFailure();
+            doWithFailure(jsonObject.get("message").getAsString());
         }
     }
 
