@@ -42,4 +42,9 @@ public class MyApplication extends Application {
         return instance.user;
     }
 
+    public static void clear() {
+        instance.mode = null;
+        instance.user = null;
+    }
+
 }

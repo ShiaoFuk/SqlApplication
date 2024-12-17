@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
         initShowLost();
         initShowFound();
         initFormBtn();
+        initLogout();
         initManager();
     }
 
@@ -162,6 +163,19 @@ public class MainActivity extends AppCompatActivity {
     private void initFormBtn() {
         b.formBtn.setOnClickListener(v->{
             Intent intent = new Intent(mContext, MyActivity.class);
+            startActivity(intent);
+        });
+    }
+
+    private void initLogout() {
+        b.logoutBtn.setOnClickListener(v->{
+            SharedPreferences sharedPreferences = getSharedPreferences("sp", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.remove("token");
+            editor.apply();
+            Intent intent = new Intent(mContext, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            ToastUtils.makeShortText(mContext, "退出登录成功");
             startActivity(intent);
         });
     }
