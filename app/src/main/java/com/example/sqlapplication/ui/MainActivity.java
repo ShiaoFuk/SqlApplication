@@ -23,6 +23,7 @@ import com.example.sqlapplication.data.dto.thing.ThingMyPageInfo;
 import com.example.sqlapplication.data.model.ThingView;
 import com.example.sqlapplication.data.model.User;
 import com.example.sqlapplication.data.state.ThingState;
+import com.example.sqlapplication.data.state.UserPermission;
 import com.example.sqlapplication.databinding.ActivityMainBinding;
 import com.example.sqlapplication.net.DefaultRequestListener;
 import com.example.sqlapplication.net.login.GetUserInfoRequest;
@@ -55,12 +56,26 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        // 登录跳转
+        SharedPreferences sharedPreferences = getSharedPreferences("sp", MODE_PRIVATE);
+        String token = sharedPreferences.getString("token", null);
+        if (token == null || JwtUtil.checkIfTokenExpire(JwtUtil.getExpireTime(token))) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            return;
+        }
+        // 获取个人信息
         GetUserInfoRequest.getInfo(new DefaultRequestListener() {
             @Override
             protected void successHandle(JsonObject data) {
                 User user = JsonUtils.getJsonParser().fromJson(data.get("data"), User.class);
                 MyApplication.setUser(user);
                 ToastUtils.makeShortText(mContext, "更新个人信息成功");
+                if (user.getPermission() >= UserPermission.MANAGER.getVal()) {
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.post(()-> b.managerBtn.setVisibility(View.VISIBLE));
+                }
             }
 
             @Override
@@ -73,14 +88,6 @@ public class MainActivity extends AppCompatActivity {
                 ToastUtils.makeShortText(mContext, "当前未联网");
             }
         }, TokenUtils.getToken(mContext));
-
-        SharedPreferences sharedPreferences = getSharedPreferences("sp", MODE_PRIVATE);
-        String token = sharedPreferences.getString("token", null);
-        if (token == null || JwtUtil.checkIfTokenExpire(JwtUtil.getExpireTime(token))) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        }
         init();
     }
 
@@ -91,15 +98,13 @@ public class MainActivity extends AppCompatActivity {
         initShowLost();
         initShowFound();
         initFormBtn();
+        initManager();
     }
 
     private void initInfoPage() {
-        b.infoBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, InfoPageActivity.class);
-                startActivity(intent);
-            }
+        b.infoBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, InfoPageActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -112,9 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 protected void successHandle(JsonObject data) {
                     List<ThingView> thingViewList = JsonUtils.getJsonParser().fromJson(data.get("data").getAsJsonObject().get("list"), new TypeToken<List<ThingView>>() {}.getType());
                     ThingViewAdapter thingViewAdapter = new ThingViewAdapter(thingViewList);
-                    mHandler.post(()->{
-                       b.recycleView.setAdapter(thingViewAdapter);
-                    });
+                    mHandler.post(()-> b.recycleView.setAdapter(thingViewAdapter));
                 }
 
                 @Override
@@ -139,9 +142,7 @@ public class MainActivity extends AppCompatActivity {
                 protected void successHandle(JsonObject data) {
                     List<ThingView> thingViewList = JsonUtils.getJsonParser().fromJson(data.get("data").getAsJsonObject().get("list"), new TypeToken<List<ThingView>>() {}.getType());
                     ThingViewAdapter thingViewAdapter = new ThingViewAdapter(thingViewList);
-                    mHandler.post(()->{
-                        b.recycleView.setAdapter(thingViewAdapter);
-                    });
+                    mHandler.post(()-> b.recycleView.setAdapter(thingViewAdapter));
                 }
 
                 @Override
@@ -165,7 +166,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
+    private void initManager() {
+        b.managerBtn.setOnClickListener(v->{
+            Intent intent = new Intent(mContext, ManagerActivity.class);
+            startActivity(intent);
+        });
+    }
 
 
 

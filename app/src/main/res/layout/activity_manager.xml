@@ -6,5 +6,51 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.ManagerActivity">
-
+    <TextView
+        android:id="@+id/title"
+        android:textSize="@dimen/app_text_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:text="预览文字"
+        android:padding="@dimen/app_padding"
+        />
+    <LinearLayout
+        android:id="@+id/layout"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        android:padding="@dimen/app_padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        >
+        <Button
+            android:layout_marginHorizontal="@dimen/app_padding"
+            android:id="@+id/show_user"
+            android:text="查看用户"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:layout_marginHorizontal="@dimen/app_padding"
+            android:id="@+id/show_manager"
+            android:text="查看管理"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:layout_marginHorizontal="@dimen/app_padding"
+            android:id="@+id/show_form"
+            android:text="查看表单"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyc_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/layout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:paddingHorizontal="@dimen/app_padding"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
