@@ -18,6 +18,9 @@
         android:theme="@style/Theme.SqlApplication"
         tools:targetApi="31">
         <activity
+            android:name=".ui.ThingShowActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.MyActivity"
             android:exported="false" />
         <activity

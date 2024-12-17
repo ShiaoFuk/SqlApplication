@@ -3,6 +3,7 @@ package com.example.sqlapplication.adapter;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.format.DateFormat;
@@ -31,6 +32,7 @@ import com.example.sqlapplication.net.thing.DelFoundRequest;
 import com.example.sqlapplication.net.thing.DelLostRequest;
 import com.example.sqlapplication.net.thing.UpdateFoundRequest;
 import com.example.sqlapplication.net.thing.UpdateLostRequest;
+import com.example.sqlapplication.ui.ThingShowActivity;
 import com.example.sqlapplication.utils.DialogUtils;
 import com.example.sqlapplication.utils.ToastUtils;
 import com.example.sqlapplication.utils.TokenUtils;
@@ -122,6 +124,12 @@ public class ThingViewAdapter extends RecyclerView.Adapter<ThingViewViewHolder> 
     public void onBindViewHolder(@NonNull ThingViewViewHolder holder, int position) {
         holder.d.setThing(list.get(position));
         Context context = holder.d.getRoot().getContext();
+        holder.d.getRoot().setOnClickListener(v->{
+            Intent intent = new Intent(context, ThingShowActivity.class);
+            Integer id = list.get(position).getId();
+            intent.putExtra("id", id);
+            context.startActivity(intent);
+        });
         holder.d.getRoot().setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
